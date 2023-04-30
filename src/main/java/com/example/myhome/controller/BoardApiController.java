@@ -2,7 +2,6 @@ package com.example.myhome.controller;
 import com.example.myhome.model.Board;
 import com.example.myhome.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
@@ -18,11 +17,12 @@ class BoardApiController {
     @GetMapping("/boards")
     List<Board> all(@RequestParam(required = false, defaultValue = "") String title,
                     @RequestParam(required = false, defaultValue = "") String content) {
-        if(StringUtils.isEmpty(title) && StringUtils.isEmpty(content)) {
+        if(StringUtils.isEmpty(title) && StringUtils.isEmpty(content)){
             return repository.findAll();
         } else {
             return repository.findByTitleOrContent(title, content);
         }
+
     }
 
     @PostMapping("/boards")
@@ -34,6 +34,7 @@ class BoardApiController {
 
     @GetMapping("/boards/{id}")
     Board one(@PathVariable Long id) {
+
         return repository.findById(id).orElse(null);
     }
 
@@ -52,7 +53,6 @@ class BoardApiController {
                 });
     }
 
- //   @Secured("ROLE_ADMIN")
     @DeleteMapping("/boards/{id}")
     void deleteBoard(@PathVariable Long id) {
         repository.deleteById(id);
